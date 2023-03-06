@@ -1,0 +1,28 @@
+syntax = "proto3";
+import "author.proto";
+import "google/api/field_behavior.proto";
+
+option java_multiple_files = true;
+option java_package = "io.github.xuenqui";
+option java_outer_classname = "PostGrpc";
+
+package io.github.xuenqui;
+
+message Post {
+  string title = 1;
+  string content = 2;
+  optional string location = 3;
+  repeated string tags = 4;
+  Author author = 5;
+  string created_at = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+  string updated_at = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+  string id = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+service PostService {
+  rpc CreatePost(Post) returns (Post) {}
+}
+
+
+//pip install googleapis-common-protos
+//pip show googleapis-common-protos
