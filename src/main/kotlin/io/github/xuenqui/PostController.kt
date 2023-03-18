@@ -18,6 +18,22 @@ class PostController(
 
         return postCreated.toGrpc().build()
     }
+
+    override suspend fun getPost(request: GetPostRequest): PostGrpc {
+        val post = if (request.id.isNotEmpty()) {
+            memoryRepository.findById(request.id)
+        } else if (request.title.isNotEmpty()) {
+            memoryRepository.findByTitle(request.title)
+        } else {
+            throw Exception("you need to inform at least one parameter.")
+        }
+
+        if (post == null) {
+            throw Exception("Post not found")
+        }
+
+        return post.toGrpc().build()
+    }
 }
 
 fun PostGrpc.toDomain(): Post =

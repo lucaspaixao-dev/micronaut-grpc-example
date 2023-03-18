@@ -21,6 +21,14 @@ message Post {
 
 service PostService {
   rpc CreatePost(Post) returns (Post) {}
+  rpc GetPost(GetPostRequest) returns (Post) {}
+}
+
+message GetPostRequest {
+  oneof filter {
+    string id = 1;
+    string title = 2;
+  }
 }
 
 
